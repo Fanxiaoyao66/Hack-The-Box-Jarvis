@@ -135,7 +135,7 @@ order by 7时返回正常，order by 8无回显：
 
 ![image-20230613142800888](/images/7.png)
 
-2,3,4,5有回显，尝试手工注入（有WAF，sqlmap会被拦截，可以通过空格改/**/绕过，或者其他方法，fuzz一下即可，这里我就纯收工注入了）
+2,3,4,5有回显，尝试手工注入（有WAF，sqlmap会被拦截，可以通过空格改/**/绕过，或者其他方法，fuzz一下即可，这里我就纯手工注入了）
 
 数据库为mysql：
 
@@ -415,7 +415,7 @@ chmod +x /tmp/rs.sh
 
 下一步提权拿root权限，本机开一个http服务，靶机从宿主机下载一个linpeas.sh
 
-执行发现：systemctl被有suid权限。
+执行发现：systemctl设有suid权限。
 
 自己写个服务提权(先按照前面的流程再升级一次shell)：
 
@@ -459,7 +459,9 @@ systemctl link /dev/shm/root.service
 ```
 
 链接服务到/etc/systemd/system/
+
 /dev/shm是一个特殊的目录，不在硬盘上，而在内存里
+
 /etc/systemd/system/目录非root不可写，这个时候用/dev/shm即可成功链接
 
 ```shell
